@@ -1,18 +1,16 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-	<title>jQuery Mobile Template</title> 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-	<meta name="viewport" 
-		content="width=device-width, initial-scale=1" /> 
-	<link rel="stylesheet" 
-		href="css/jquery.mobile-1.1.0.min.css" /> 
-	<script type="text/javascript" 
-		src="js/libs/jquery-1.7.1.min.js"></script> 
-	<script type="text/javascript" 
-		src="js/libs/jquery.mobile-1.1.0.min.js"></script> 
+<!DOCTYPE html>
+<html>
+<head>
+<title>jQuery Mobile Template</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" />
+<script type="text/javascript" src="js/libs/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/libs/jquery.mobile-1.1.0.min.js"></script>
+
+<script type="text/javascript"> 
+		var endpointURL = "rest/members";
 		
-	<script type="text/javascript"> 
 		$(document).on("pageinit", "#page1", function(event){ 
 
 			refreshList();
@@ -22,10 +20,39 @@
 			    console.log("tapped/clicked");
 			    refreshList();
 		    });
-		}); 
+
+		    $('#newMemberForm').submit(function(event) {
+		    	event.preventDefault();
+		    	// var memberDataAsJSON = $(this).serializeJSON();
+		    	// console.log(memberDataAsJSON);
+		    	 
+		    });
+		    
+		    $("#btnRegister").tap(function () {
+			    console.log("tapped/clicked");
+			    var memberDataAsJSON = $("#newMemberForm").serializeJSON();
+		    	console.log(memberDataAsJSON);
+		    	
+		    	$.ajax({
+		            url: endpointURL,
+		            contentType: "application/json",
+		            dataType: "json",
+		            type: "POST",
+		            data: memberDataAsJSON,
+		            success: function(data) {
+						$("#formMsgs").append($('<span class="success">Member Registered</span>'));
+						refreshList();
+						$("#newMemberForm")[0].reset();
+				    }, 
+				    error: function(error) {
+					    console.log(error);
+				    }	    
+		    	}); // ajax
+		    }); // btnRegister tap		    
+		}); // pageinit 
 
 		function refreshList() {
-			$.getJSON("rest/members", function(events) {
+			$.getJSON(endpointURL, function(events) {
 			    console.log("returned are " + events);
 			
 		    	var listOfEvents = $("#listOfItems");
@@ -37,25 +64,71 @@
 		    	listOfEvents.listview("refresh");
 			}); // getJSON   			
 		} // refreshList()
-	</script> 
-</head> 
-<body> 
-	<div data-role="page" id="page1"> 
-		<div data-role="header"> 
-			<h1>jQuery Mobile</h1> 
-		</div> 
-		<div data-role="content"> 
+		
+		$.fn.serializeJSON = function() {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                          o[this.name] = [o[this.name]];
+                     }
+                          o[this.name].push(this.value || '');
+                     } else {
+                          o[this.name] = this.value || '';
+                     }
+                });
+                return JSON.stringify(o);
+            };
+		
+	</script>
+</head>
+<body>
+	<div data-role="page" id="page1">
+		<div data-role="header">
+			<h1>jQuery Mobile</h1>
+		</div>
+		<div data-role="content">
+
+			<form id="newMemberForm" data-ajax="false">
+				<fieldset>
+					<div>
+						<label for="name">Name:</label> <input type="text" name="name"
+							id="name" placeholder="Your Name" required autofocus />
+					</div>
+					<div>
+						<label for="email">Email:</label> <input type="email" name="email"
+							id="email" placeholder="Your Email" required />
+					</div>
+					<div>
+						<label for="phoneNumber">Phone #:</label> <input type="tel"
+							name="phoneNumber" id="phoneNumber" pattern="[0-9]{10,12}"
+							placeholder="Your Phone #" required />
+					</div>
+					<div id="formMsgs"></div>
+					<!-- 
+					<div data-role="controlgroup" data-type="horizontal">					
+						<input type="submit" name="register" id="register"
+							value="Register" /> 
+						<input type="button" name="cancel"
+							id="cancel" value="Cancel" />
+					</div>
+					 -->
+  					<a id="btnRegister" href="#" data-role="button">Register</a>
+					 
+				</fieldset>
+			</form>
 			<a id="btnRefresh" href="#" data-role="button">Refresh</a>
-			<ul id="listOfItems" data-role="listview" data-inset="true" 
-				data-filter="false"> 
-				<li><a href="">One</a></li> 
-				<li><a href="">Two</a></li> 
-				<li><a href="">Three</a></li> 
-			</ul> 
-		</div> 
-		<div data-role="footer"> 
-			<h4>www.jboss.org/developer</h4> 
-		</div> 
-	</div> 
-</body> 
+			<ul id="listOfItems" data-role="listview" data-inset="true"
+				data-filter="false">
+				<li><a href="">One</a></li>
+				<li><a href="">Two</a></li>
+				<li><a href="">Three</a></li>
+			</ul>
+		</div>
+		<div data-role="footer">
+			<h4>www.jboss.org/developer</h4>
+		</div>
+	</div>
+</body>
 </html>

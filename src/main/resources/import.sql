@@ -17,3 +17,5 @@
 
 -- You can use this file to load seed data into the database using SQL statements
 insert into Member_html5mobi (id, name, email, phone_number) values (0, 'John Smith', 'john.smith@mailinator.com', '2125551212')
+insert into StatusUpdate (id, first_name, last_name, clanname, status_text, version, create_time) values (1,'Burr', 'Sutter','MyClan', 'This is my status', 1, '2012-05-22 16:19:18.0')
+insert into StatusUpdate (id, first_name, last_name, clanname, status_text, version, create_time) values (2,'Ian', 'Sutter','SupaDudes', 'This is my status Man', 1, '2012-08-22 16:19:18.0')
