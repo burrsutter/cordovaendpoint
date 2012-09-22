@@ -49,6 +49,8 @@ public class StatusUpdateEndpoint
    public StatusUpdate create(StatusUpdate entity)
    {
       em.joinTransaction();
+      entity.setCreate_time(new java.util.Date()); // default to now
+      entity.setVersion(1);
       em.persist(entity);
       return entity;
    }
@@ -79,7 +81,7 @@ public class StatusUpdateEndpoint
    public List<StatusUpdate> listAll()
    {
       @SuppressWarnings("unchecked")
-      final List<StatusUpdate> results = em.createQuery("SELECT x FROM StatusUpdate x").getResultList();
+      final List<StatusUpdate> results = em.createQuery("SELECT x FROM StatusUpdate x ORDER BY x.create_time DESC").getResultList();
       return results;
    }
 
