@@ -59,13 +59,14 @@
 		    }); // btnSubmit tap
 		    
     		$('.itemList').live('tap', function(event) {
-    		    event.preventDefault();
+    		    // event.preventDefault();
     		    console.log("tap: " + event.target);
     		    itemId = $(this).attr("data-item-id");
+    		    // var item = $(this).data("item-id");
     		    itemText = $("body").data(itemId);
     		    console.log("this: " + itemId + " - " + itemText);
     		    $("#detailedText").text(itemText);
-    		    $.mobile.changePage("#pageDetails");
+    		    $.mobile.changePage("#pageDetails",{transition: 'flow'});
     	    });
 		}); // pageinit
 
