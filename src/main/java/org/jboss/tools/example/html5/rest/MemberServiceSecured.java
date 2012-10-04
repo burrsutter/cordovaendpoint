@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -68,6 +69,7 @@ public class MemberServiceSecured {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"admin","guest"})
     public List<Member> listAllMembers() {
         return repository.findAllOrderedByName();
     }
@@ -75,6 +77,7 @@ public class MemberServiceSecured {
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"admin","guest"})
     public Member lookupMemberById(@PathParam("id") long id) {
         Member member = repository.findById(id);
         if (member == null) {
