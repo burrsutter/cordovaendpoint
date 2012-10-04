@@ -20,6 +20,7 @@
     <param-name>resteasy.role.based.security</param-name>
     <param-value>true</param-value>
   </context-param>
+  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Resteasy</web-resource-name>
@@ -30,10 +31,12 @@
       <role-name>guest</role-name>
     </auth-constraint>
   </security-constraint>
+  
   <login-config>
     <auth-method>BASIC</auth-method>
     <realm-name>RealmUsersRoles</realm-name>
   </login-config>
+  
   <security-role>
     <role-name>admin</role-name>
   </security-role>
