@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
    <groupId>org.jboss.tools.example.html5</groupId>
-   <artifactId>defaultHTML5</artifactId>
+   <artifactId>cordovaendpoint</artifactId>
    <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
