@@ -441,6 +441,14 @@
                         <login-module code="Remoting" flag="optional">
                             <module-option name="password-stacking" value="useFirstPass"/>
                         </login-module>
+                        
+						<login-module code="RealmUsersRoles" flag="required">
+                		   <module-option name="usersProperties" value="${OPENSHIFT_DATA_DIR}/application-users.properties"/>
+        		           <module-option name="rolesProperties" value="${OPENSHIFT_DATA_DIR}/application-roles.properties"/>
+                    	   <module-option name="realm" value="ApplicationRealm"/>
+                           <module-option name="password-stacking" value="useFirstPass"/>
+		                </login-module>                        
+		                
                         <login-module code="RealmDirect" flag="required">
                             <module-option name="password-stacking" value="useFirstPass"/>
                         </login-module>
