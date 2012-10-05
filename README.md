@@ -1,3 +1,4 @@
+
 cordovaendpoint project maps to http://cordovaendpoint-burrsutter.rhcloud.com/
 
 It provides REST endpoints for my Apache Cordova/Phonegap Tutorial (not published).
@@ -18,7 +19,7 @@ which maps to org.jboss.tools.examples.servlet.security.SecuredServlet
 User: guest
 Password: password
 
-Updated .openshift/config/standalone.xml to have 
+Update .openshift/config/standalone.xml to have 
 
           <security-domains>
                <security-domain name="other" cache-type="default">
@@ -42,7 +43,7 @@ Updated .openshift/config/standalone.xml to have
                </security-domain>
            </security-domains>
 
-and push it.
+and git push it.
 
 Create application-users.properties and application-roles.properties via SSH
 in $OPENSHIFT_DATA_DIR
@@ -55,3 +56,6 @@ Basic Auth is a bit tricky to setup:
 - web.xml points to the UsersRoles in the standalone.xml
 - need to update the two .properties files - via SSH
 - JAX-RS code uses @RolesAllowed to map in the role names
+
+Note: I believe updates to application-users.properties require an app restart, 
+you can simply make a small change to web.xml and git push it

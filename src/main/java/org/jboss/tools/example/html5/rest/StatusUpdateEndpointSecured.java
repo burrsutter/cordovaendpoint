@@ -32,9 +32,9 @@ import javax.ws.rs.*;
 import org.jboss.tools.example.html5.model.StatusUpdate;
 
 @Stateful
-@Path("/statusupdate")
+@Path("/securedstatusupdate")
 @TransactionAttribute
-public class StatusUpdateEndpoint
+public class StatusUpdateEndpointSecured
 {
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager em;

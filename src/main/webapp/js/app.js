@@ -20,6 +20,25 @@ Restful calls, validates return values, and populates the member table.
  */
 
 /* Get the member template */
+
+
+$.fn.serializeJSON = function() {
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function() {
+		if (o[this.name]) {
+			if (!o[this.name].push) {
+				o[this.name] = [o[this.name]];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	return JSON.stringify(o);
+};
+
+
 function getMemberTemplate() {
     $.ajax({
         url: "tmpl/member.tmpl",
