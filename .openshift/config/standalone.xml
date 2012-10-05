@@ -442,7 +442,7 @@
                             <module-option name="password-stacking" value="useFirstPass"/>
                         </login-module>
                         
-						<login-module code="RealmUsersRoles" flag="required">
+						<login-module code="UsersRoles" flag="required">
                 		   <module-option name="usersProperties" value="${env.OPENSHIFT_DATA_DIR}/application-users.properties"/>
         		           <module-option name="rolesProperties" value="${env.OPENSHIFT_DATA_DIR}/application-roles.properties"/>
 		                </login-module>                        

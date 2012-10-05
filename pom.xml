@@ -7,8 +7,8 @@
    <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
-   <name>defaultHTML5</name>
-    <description>An AeroGear and Java EE 6 HTML5 mobile web application for use with JBoss.</description>
+   <name>cordovaendpoint</name>
+    <description>HTML5, jQuery Mobile, REST Endpoints</description>
     <url>http://jboss.org/aerogear</url>
 
     <properties>
