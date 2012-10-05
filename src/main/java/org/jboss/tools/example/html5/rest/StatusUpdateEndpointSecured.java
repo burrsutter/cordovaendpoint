@@ -23,24 +23,31 @@ package org.jboss.tools.example.html5.rest;
 
 import java.util.List;
 
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
 import org.jboss.tools.example.html5.model.StatusUpdate;
+import javax.annotation.security.RolesAllowed;
 
-@Stateful
+
 @Path("/securedstatusupdate")
-@TransactionAttribute
+@RequestScoped
 public class StatusUpdateEndpointSecured
 {
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   @PersistenceContext
    private EntityManager em;
 
    @POST
    @Consumes("application/json")
+   @RolesAllowed({"admin","guest"})
    public StatusUpdate create(StatusUpdate entity)
    {
       em.joinTransaction();
@@ -53,6 +60,7 @@ public class StatusUpdateEndpointSecured
    @DELETE
    @Path("/{id:[0-9][0-9]*}")
    @Produces("application/json")
+   @RolesAllowed({"admin","guest"})
    public StatusUpdate deleteById(@PathParam("id")
    Long id)
    {
@@ -65,6 +73,7 @@ public class StatusUpdateEndpointSecured
    @GET
    @Path("/{id:[0-9][0-9]*}")
    @Produces("application/json")
+   @RolesAllowed({"admin","guest"})
    public StatusUpdate findById(@PathParam("id")
    Long id)
    {
@@ -73,6 +82,7 @@ public class StatusUpdateEndpointSecured
 
    @GET
    @Produces("application/json")
+   @RolesAllowed({"admin","guest"})
    public List<StatusUpdate> listAll()
    {
       @SuppressWarnings("unchecked")
@@ -83,6 +93,7 @@ public class StatusUpdateEndpointSecured
    @PUT
    @Path("/{id:[0-9][0-9]*}")
    @Consumes("application/json")
+   @RolesAllowed({"admin","guest"})
    public StatusUpdate update(@PathParam("id")
    Long id, StatusUpdate entity)
    {

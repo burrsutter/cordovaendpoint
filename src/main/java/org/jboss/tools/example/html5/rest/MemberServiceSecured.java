@@ -93,6 +93,7 @@ public class MemberServiceSecured {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"admin","guest"})
     public Response createMember(Member member) {
 
         Response.ResponseBuilder builder = null;
