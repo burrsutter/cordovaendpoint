@@ -42,6 +42,9 @@
 		            dataType: "json",
 		            type: "POST",
 		            data: memberDataAsJSON,
+		            beforeSend: function (xhr){ 
+		                xhr.setRequestHeader('Authorization', make_base_auth("guest", "password")); 
+		            },	            		            		            
 		            success: function(data) {
 						$("#formMsgs").append($('<span class="success">Member Registered</span>'));
 						refreshList();
@@ -54,18 +57,41 @@
 		    }); // btnRegister tap		    
 		}); // pageinit 
 
+		function make_base_auth(user, password) {
+			  var tok = user + ':' + password;
+			  var hash = btoa(tok);
+			  return "Basic " + hash;
+		}
+		
 		function refreshList() {
 			$.getJSON(endpointURL, function(events) {
-			    console.log("returned are " + events);
-			
-		    	var listOfEvents = $("#listOfItems");
-		    	listOfEvents.empty();
-		    	$.each(events, function(index, event) {
-		            // console.log(event.name);
-		            listOfEvents.append("<li><a href='#'>" + event.name + "</a>");
-		    	});
-		    	listOfEvents.listview("refresh");
-			}); // getJSON   			
+			}); // getJSON
+
+	    	$.ajax({
+	            url: endpointURL,
+	            contentType: "application/json",
+	            dataType: "json",
+	            type: "GET",
+	            beforeSend: function (xhr){ 
+	                xhr.setRequestHeader('Authorization', make_base_auth("guest", "password")); 
+	            },	            		            		            
+	            success: function(data) {
+				    console.log("returned are " + data);
+					
+			    	var listOfEvents = $("#listOfItems");
+			    	listOfEvents.empty();
+			    	$.each(data, function(index, event) {
+			            // console.log(event.name);
+			            listOfEvents.append("<li><a href='#'>" + event.name + "</a>");
+			    	});
+			    	listOfEvents.listview("refresh");
+
+	            }, 
+			    error: function(error) {
+				    console.log(error);
+			    }	    
+	    	}); // ajax
+			   			
 		} // refreshList()
 		
 	</script>

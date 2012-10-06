@@ -51,7 +51,7 @@ import org.jboss.tools.example.html5.service.MemberRegistration;
  * <p/>
  * This class produces a RESTful service to read/write the contents of the members table.
  */
-@Path("/securedmembers")
+@Path("/secured/members")
 @RequestScoped
 @Stateful
 public class MemberServiceSecured {

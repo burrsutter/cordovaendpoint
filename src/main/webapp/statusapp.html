@@ -16,7 +16,7 @@
 		
 	<script type="text/javascript"> 
 	    // var endpointURL = "http://cordovaendpoint-burrsutter.rhcloud.com/rest/statusupdate";
-	    var endpointURL = "rest/securedstatusupdate";
+	    var endpointURL = "rest/secured/statusupdate";
 	    var arrayOfItems;
 	    
 		$(document).on("pageinit", "#page1", function(event){ 
@@ -41,12 +41,16 @@
 		    $("#btnSubmit").tap(function () {
 	    	    var statusDataAsJSON = $("#newStatusForm").serializeJSON();
 	    	    console.log(statusDataAsJSON);		
+	    	    
 		    	$.ajax({
 		            url: endpointURL,
 		            contentType: "application/json",
 		            dataType: "json",
 		            type: "POST",
 		            data: statusDataAsJSON,
+		            beforeSend: function (xhr){ 
+		                xhr.setRequestHeader('Authorization', make_base_auth("guest", "password")); 
+		            },	            		            
 		            success: function(data) {
 						// $("#formMsgs").append($('<span class="success">Member Registered</span>'));
 						refreshList();
@@ -70,37 +74,61 @@
     	    });
 		}); // pageinit
 
+		function make_base_auth(user, password) {
+			  var tok = user + ':' + password;
+			  var hash = btoa(tok);
+			  return "Basic " + hash;
+		}
+
 		function refreshList() {
-			$.getJSON(endpointURL, function(events) {
-			    console.log("items returned: " + events.length);
-			
-		    	var listOfEvents = $("#listOfItems");
-		    	listOfEvents.empty();
-		    	listOfEvents.append('<li data-role="list-divider">Timeline</li>');
-		    	arrayOfItems = new Array();
-		    	$.each(events, function(index, item) {
-					// create dataItem
-					$("body").data(item.id.toString(), item.status_text.toString());
+			// $.getJSON(endpointURL, function(events) {
+				// body
+			// }); // getJSON 
+
+	    	$.ajax({
+	            url: endpointURL,
+	            contentType: "application/json",
+	            dataType: "json",
+	            type: "GET",
+	            beforeSend: function (xhr){ 
+	                xhr.setRequestHeader('Authorization', make_base_auth("guest", "password")); 
+	            },	            
+	            success: function(data) {
+				    console.log("items returned: " + data.length);
 					
-		            // add to array
-		            // arrayOfItems.push(dataItem);
-		            		            
-		            // make this 10 chars of first name, 1 char of last name, first N chars of status text
-		            subFirstName = item.first_name.substring(0,10);
-		            subLastName = item.last_name.substring(0,1);
-		            subStatusText = item.status_text.substring(0,42);
-		            lineItem = subFirstName + " " + subLastName + " " + subStatusText;
-		            newItem = "<li><a class='itemList' href='#' ";
-		            newItem = newItem + "  data-item-id='" + item.id + "'>";
-		            newItem = newItem + "  <p><strong>" + subFirstName + " " + subLastName + "</strong></p>";
-		            newItem = newItem + "  <p>" + subStatusText + "</p>";        
-		            newItem = newItem + "</a></li>";
-		            listOfEvents.append(newItem);
-		    	});
-	
-		    	
-		    	listOfEvents.listview("refresh");
-			}); // getJSON   			
+			    	var listOfEvents = $("#listOfItems");
+			    	listOfEvents.empty();
+			    	listOfEvents.append('<li data-role="list-divider">Timeline</li>');
+			    	arrayOfItems = new Array();
+			    	$.each(data, function(index, item) {
+						// create dataItem
+						$("body").data(item.id.toString(), item.status_text.toString());
+						
+			            // add to array
+			            // arrayOfItems.push(dataItem);
+			            		            
+			            // make this 10 chars of first name, 1 char of last name, first N chars of status text
+			            subFirstName = item.first_name.substring(0,10);
+			            subLastName = item.last_name.substring(0,1);
+			            subStatusText = item.status_text.substring(0,42);
+			            lineItem = subFirstName + " " + subLastName + " " + subStatusText;
+			            newItem = "<li><a class='itemList' href='#' ";
+			            newItem = newItem + "  data-item-id='" + item.id + "'>";
+			            newItem = newItem + "  <p><strong>" + subFirstName + " " + subLastName + "</strong></p>";
+			            newItem = newItem + "  <p>" + subStatusText + "</p>";        
+			            newItem = newItem + "</a></li>";
+			            listOfEvents.append(newItem);
+			    	});
+		
+			    	
+			    	listOfEvents.listview("refresh");
+
+	            }, 
+			    error: function(error) {
+				    console.log(error);
+			    }	    
+	    	}); // ajax	    	    	 
+			  			
 		} // refreshList()
 	</script> 
 </head> 

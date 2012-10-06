@@ -36,10 +36,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import org.jboss.tools.example.html5.model.StatusUpdate;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateful;
 
-
-@Path("/securedstatusupdate")
+@Path("/secured/statusupdate")
 @RequestScoped
+@Stateful
 public class StatusUpdateEndpointSecured
 {
    @PersistenceContext
